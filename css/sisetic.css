@@ -1,0 +1,209 @@
+/* 
+    Document   : sisectic
+    Created on : 10/12/2012, 01:38:31 PM
+    Author     : victor aguilar
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body{
+/* IE10 Consumer Preview */ 
+background-image: -ms-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #CBCFE7), color-stop(1, #FFFFFF));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+	background-image: linear-gradient(to top, #CBCFE7 0%, #FFFFFF 100%);
+	background-repeat: no-repeat;
+	background-color: #CBCFE6;
+	font-family: Tahoma, Arial, sans-serif;
+	font-size: 9pt;
+	color: #262D4A;
+}
+
+input{
+	border: solid #336699 thin;
+}
+
+#wrapper{
+	width:975px;
+	margin-right:auto;
+	margin-left:auto;
+	margin-top:0px;
+	background-color:white;
+}
+
+
+#header{
+	background-image: url('header.png');
+	width:975px;
+	height:100px;
+	margin:0px;
+	background-color:red;
+}
+
+#footer{
+	background-image: url('footer.png');
+	background-position: top center;
+	width:975px;
+	height:46px;
+	margin:0px;
+}
+
+#container{
+padding:0px;
+margin:0px
+}
+
+
+/*
+	Login
+*/
+#login table{
+	width: 260px;
+	height: 100px;
+	padding:10px;
+	background-color:red;
+	margin-top:200px;
+	margin-bottom:200px;
+	border-collapse: collapse;
+	box-shadow: 10px 10px 5px #888888;
+}
+
+#login table td{
+	background-color: #DFE4F4;
+	margin-right:0px;
+	text-align:right;
+	padding: 10px 30px 5px 10px;
+}
+
+#login table th{
+	background-color: #336699;
+	padding:5px;
+}
+
+#login table input{
+	
+}
+
+/*
+	Menu
+*/
+
+#menu{
+	background-color:#16609F;
+	height:30px;
+}
+
+#menu ul{
+	margin:0px;
+	padding-left:5px;
+	display: block;
+}
+
+#menu ul li{
+	display: inline-block;
+	position:relative;
+	margin-right:20px;
+}
+#menu ul li a{
+	display:block;
+	padding: 7px 0px 8px 0px;
+	text-decoration: none;
+	color: white;
+	
+}
+
+#menu ul li ul{
+	display: none;
+}
+
+#menu ul li:hover ul{
+	display: inline-block;
+}
+
+#menu ul li:hover ul li{
+	display: block;
+	background-color:red;
+}
+
+.submenu{
+	position:absolute;
+	left:-5px
+}
+
+#menu ul li ul.submenu li a{
+	display:block;
+	width: 200px;
+	padding:5px;
+	background-color:#16609F;
+}
+
+#menu ul li ul.submenu li a:hover{
+	background-color:#88C2F2;
+}
+
+
+
+/*
+	Clases
+*/
+
+.center{
+	margin-right:auto;
+	margin-left:auto;
+}
+
+.error{
+	padding:3px;
+	color:red;
+	font-weight: bold;
+}
+
+.success{
+	color: green;
+	padding:3px;
+	font-weight: bold;
+}
+
+/*
+	Alta de Ficha
+*/
+
+#alta_de_ficha table{
+	width:900px;
+}
+
+#alta_de_ficha table td{
+	padding-top:20px;
+}
+
+#alta_de_ficha input{
+	width:90%;
+}
+
+
+#alta_de_ficha col.labels{
+	width:150px;
+}
+
+#alta_de_ficha td.submit{
+	text-align:right;
+}
+
+#alta_de_ficha td.submit input{
+	width:60px;
+	margin-right:30px;
+	padding:5px;
+	
+}
