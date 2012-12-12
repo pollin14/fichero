@@ -111,9 +111,9 @@ if (isset($_POST['id_ficha'])) {//actualizacion
     <body>
 		<div id="wrapper">
 			<div id="header"></div>
+			<div id="menu"><?php include 'componentes/menu.php' ?></div>
 			<div id="container">
-				<div id="menu"><?php include 'componentes/menu.php' ?></div>
-				<div>
+				<h1>Alta de Ficha</h1>
 					<p class="error"><?php echo $error ?></p>
 					<p class="exito"><?php echo $exito ?></p>
 					<form name="alta_de_ficha" id="alta_de_ficha" action="alta_de_ficha.php" method="post">
@@ -127,7 +127,7 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 								<col>
 							</colgroup>
 							<tr>
-								<td colspan="3"><h2>Ingresar los datos de la persona.</h2></td>
+								<th colspan="2">Ingresar los datos de la persona.</th>
 							</tr>
 							<tr>
 								<td><label for="nombre" title="Puede ser nombre COMPLETO o PARCIAL">Nombre:</label></td>
@@ -209,7 +209,7 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 								<td><input name="web_site" type="text" value="<?php echo $f['web_site'] ?>"></td>
 							</tr>
 							<tr>
-								<td colspan="2"><h2>Datos del Enlace.</h2></th>
+								<th colspan="2">Datos del Enlace.</th>
 							</tr>
 							<tr>
 								<td><label for="nombre1" title="Puede ser nombre COMPLETO o PARCIAL">Nombre(s):</label></td>
@@ -231,12 +231,11 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 								<td></td>
 								<td></td>
 								<td></td>
-								<td class="submit"><input type="submit" name="submit" value="<?php echo $accion_submit ?>"></td>
+								<td><input type="submit" name="submit" value="<?php echo $accion_submit ?>"></td>
 							</tr>
 							</tbody>
 						</table>
 					</form>
-				</div>
 
 			</div>
 			<div id="footer"></div>
