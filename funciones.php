@@ -16,4 +16,8 @@ function administraSesion(){
         exit();
     }
 }
+
+function estiliza($subject){
+	return ucwords( str_replace('_', ' ', $subject) );
+}
 ?>
