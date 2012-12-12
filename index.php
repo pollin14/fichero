@@ -71,20 +71,19 @@ if (isset($_POST['usuario']) &&
 							<th colspan="2">Inicio de Sesión</th>
 						</tr>
 						<tr>
-							<td colspan="2" class="error"><?php echo $error ?></td>
+							<td class="error"><?php echo $error ?></td>
 						</tr>
 						<tr id="usuario">
-							<td><label for="nickname">Usuario: </label></td>
 							<td>
+								<label for="nickname">Usuario: </label>
 								<input type="text" name="usuario" autofocus autocomplete="false"/>
 							</td>
 						</tr>
 						<tr id="password">
-							<td><label for="password">Contraseña: </label></td>
-							<td><input type="password" name="password" /></td>
+							<td colspan="2"><label for="password">Contraseña: </label><input type="password" name="password" /></td>
 						</tr>
 						<tr>
-							<td colspan="2"><input type="submit" name="entrar" value="Entrar" id="entrar" /></td>
+							<td><input type="submit" name="entrar" value="Entrar" id="entrar" /></td>
 						</tr>
 					</table>
 				</form>

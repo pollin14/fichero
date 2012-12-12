@@ -34,6 +34,13 @@ background-image: -webkit-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
 input{
 	border: solid #336699 thin;
 }
+input:focus{
+	background-color: #DFE4F4;
+}
+
+select{
+	width:100%;
+}
 
 #wrapper{
 	width:975px;
@@ -92,10 +99,6 @@ margin:0px
 	padding:5px;
 }
 
-#login table input{
-	
-}
-
 /*
 	Menu
 */
@@ -134,7 +137,6 @@ margin:0px
 
 #menu ul li:hover ul li{
 	display: block;
-	background-color:red;
 }
 
 .submenu{
@@ -164,13 +166,16 @@ margin:0px
 	margin-left:auto;
 }
 
-.error{
+label.error, p.error{
+	font-size: 14px;
 	padding:3px;
 	color:red;
 	font-weight: bold;
 }
 
-.success{
+
+.exito{
+	font-size: 14px;
 	color: green;
 	padding:3px;
 	font-weight: bold;
@@ -186,15 +191,19 @@ margin:0px
 
 #alta_de_ficha table td{
 	padding-top:20px;
+	padding-right:10px;
 }
 
 #alta_de_ficha input{
-	width:90%;
+	width:100%;
 }
 
+#alta_de_ficha col{
+	width: 350px;
+}
 
 #alta_de_ficha col.labels{
-	width:150px;
+	width:80px;
 }
 
 #alta_de_ficha td.submit{
@@ -205,5 +214,4 @@ margin:0px
 	width:60px;
 	margin-right:30px;
 	padding:5px;
-	
 }
