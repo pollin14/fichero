@@ -119,12 +119,12 @@ if (isset($_GET['id_ficha'])) {
 								<td><input type="text" value="" name="<?php echo $value ?>"></td>
 							</tr>
 						<?php endforeach; ?>
-						<tr><td></td><td><input type="submit" name="submit" value="Consultar"</td></tr>
+						<tr><td></td><td><input type="submit" value="Consultar"</td></tr>
 					</table>
 				</form>
 				<div id="fichas">
 					<h1>Resulados (<?php echo $num_fichas ?>)</h1>
-					<table>
+					<table class="coloreada">
 							<?php foreach ($columnas as $value): ?>
 								<th><?php echo $value ?></th>
 							<?php endforeach ?>

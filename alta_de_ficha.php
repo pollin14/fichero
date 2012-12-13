@@ -217,15 +217,15 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 										name="nom_asist" 
 										onkeyup="this.value=this.value.toUpperCase();" 
 										type="text" 
-										value="<?php echo $f['nom_asist'] ?>">
+										value="<?php echo $f['nombre_asistente'] ?>">
 								</td>
 								<td><label for="correo_asist">Correo:</label></td>
-								<td><input name="correo_asist" type="text" value="<?php echo $f['correo_asist'] ?>" class="email"></td>
+								<td><input name="correo_asist" type="text" value="<?php echo $f['correo_asistente'] ?>" class="email"></td>
 							<tr>
 								<td><label for="telefono_asist">Teléfono:</label></td>
-								<td><input name="telefono_asist" type="text" value="<?php echo $f['telefono_asist'] ?>"></td>
+								<td><input name="telefono_asist" type="text" value="<?php echo $f['telefono_asistente'] ?>"></td>
 								<td><label for="ext_asist">Ext:</label></td>
-								<td><input name="ext_asist" type="text" value="<?php echo $f['ext_asist'] ?>"></td>
+								<td><input name="ext_asist" type="text" value="<?php echo $f['ext_asistente'] ?>"></td>
 							</tr>
 							<tr>
 								<td></td>

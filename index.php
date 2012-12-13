@@ -1,13 +1,15 @@
 <?php
 header('Content-Type: text/html; charset=UTF-8');
-include 'configuracion.php';
+require_once 'configuracion.php';
+require_once 'funciones.php';
+
 
 $error = "";
 
 session_start();
 
 if (isset($_SESSION['id_usuario'])) {
-	header('location: fichero.php');
+	header('location: alta_de_llamdas.php');
 }
 
 
@@ -25,8 +27,8 @@ if (isset($_POST['usuario']) &&
 	$contraseña = $_POST['password'];
 	$db = dameConexion();
 
-	$query = sprintf("select id_usuario,usuario,nombre 
-	from usuarios where usuario='%s' and contraseña ='%s';", $usuario, $contraseña);
+	$query = sprintf("select id_user 
+	from usuarios where usr='%s' and pwd ='%s';", $usuario, $contraseña);
 	$result = $db->query($query);
 
 	if (!$result) {
@@ -36,11 +38,9 @@ if (isset($_POST['usuario']) &&
 		if ($result->num_rows == 0) {
 			$error = 'El usuario o la constraseña son incorrecta.';
 		} else {
-			$row = $result->fetch_assoc();
+			$row = $result->fetch_row();
 
-			$_SESSION['id_usuario'] = $row['id_usuario'];
-			$_SESSION['usuario'] = $usuario;
-			$_SESSION['nombre'] = $row['nombre'];
+			$_SESSION['id_usuario'] = $row[0];
 
 			if (isset($_GET['pa'])) {
 				$dir = $_GET['pa'];
@@ -83,7 +83,7 @@ if (isset($_POST['usuario']) &&
 							<td colspan="2"><label for="password">Contraseña: </label><input type="password" name="password" /></td>
 						</tr>
 						<tr>
-							<td><input type="submit" name="entrar" value="Entrar" id="entrar" /></td>
+							<td><input type="submit" value="Entrar" id="entrar" /></td>
 						</tr>
 					</table>
 				</form>

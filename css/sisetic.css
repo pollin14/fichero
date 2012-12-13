@@ -38,6 +38,11 @@ input:focus{
 	background-color: #DFE4F4;
 }
 
+button{
+	border: solid #336699 thin;
+	background-color: #DFE4F4;
+}
+
 select{
 	width:100%;
 }
@@ -107,6 +112,10 @@ margin:0px
 #login table th{
 	background-color: #336699;
 	padding:5px;
+}
+
+#login input{
+	width:auto;
 }
 
 /*
@@ -189,8 +198,16 @@ label.error, p.error,.exito{
 	color: green;
 }
 
+table{
+	border-collapse: collapse;
+}
 table tr td input{
 	width:100%;
+}
+
+table tr td input[type='radio']{
+	width:auto;
+	margin-right:30px;
 }
 
 table input[type="submit"]{
@@ -200,17 +217,17 @@ table input[type="submit"]{
 	margin-right:0px;
 }
 
+table tr td{
+	padding-top:20px;
+	padding-right:10px;
+}
+
 /*
 	Alta de Ficha
 */
 
 #alta_de_ficha table{
 	width:900px;
-}
-
-#alta_de_ficha table td{
-	padding-top:20px;
-	padding-right:10px;
 }
 
 #alta_de_ficha col{
@@ -239,15 +256,21 @@ table input[type="submit"]{
 }
 
 #fichas table{
-	border-collapse: collapse;
 	margin:15px;
 }
 
-#fichas table td{
+table.coloreada th{
+	background-color: #16609F;
+	border: solid #336699 thin;
+	padding:6px;
+	color: white;
+}
+
+table.coloreada td{
 	border: solid #336699 thin;
 	padding:6px;
 }
 
-#fichas table tr:nth-child(2n){
+table.coloreada tr:nth-child(2n){
 	background-color: #DFE4F4;
 }
