@@ -4,7 +4,8 @@ header('content-type:text/html; encode=utf8');
 require_once 'configuracion.php';
 require_once 'funciones.php';
 
-session_start();
+administraSesion();
+
 $db = dameConexion();
 
 $error = '';
@@ -55,13 +56,6 @@ $llamadas = $db->query($query);
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="css/sisetic.css" />
 		<link rel="shortcut icon" href="css/favicon.png" >
-		<script>
-			$(document).ready(function(){
-				$('a[href="#"').bind('click',function(){
-					
-				})
-			})
-		</script>
         <title>SISETIC: Pendientes</title>
     </head>
     <body>

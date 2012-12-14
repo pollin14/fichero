@@ -12,8 +12,9 @@ function dameConexion() {
 }
 
 function administraSesion() {
-	if (!isset($_SESSION['idUsuario'])) {
-		header('Location: index.php?pa="' . urlencode($_SERVER['SCRIPT_NAME']));
+	session_start();
+	if (!isset($_SESSION['id_usuario'])) {
+		header('Location: index.php?pa=' . urlencode($_SERVER['PHP_SELF']));
 		exit();
 	}
 }

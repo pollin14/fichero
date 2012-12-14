@@ -9,13 +9,13 @@ $error = "";
 session_start();
 
 if (isset($_SESSION['id_usuario'])) {
-	header('location: alta_de_llamdas.php');
+	header('location: alta_de_llamadas.php');
 }
 
 
 //redireccion a la pagina que se solicito.
 if (isset($_GET['pa'])) {
-	$pa = "?pa=" . $_GET['pa'];
+	$pa = "?pa=" . urlencode( $_GET['pa'] );
 } else {
 	$pa = '';
 }
@@ -32,7 +32,7 @@ if (isset($_POST['usuario']) &&
 	$result = $db->query($query);
 
 	if (!$result) {
-		$error = "Ups! Ocurrio un problema al conectarse con la base de datos.";
+		$error = "Ocurrió un problema al conectarse con la base de datos.";
 	} else {
 
 		if ($result->num_rows == 0) {
@@ -41,12 +41,15 @@ if (isset($_POST['usuario']) &&
 			$row = $result->fetch_row();
 
 			$_SESSION['id_usuario'] = $row[0];
+			$_SESSION['error'] = '';
+			$_SESSION['exito'] = '';
 
 			if (isset($_GET['pa'])) {
 				$dir = $_GET['pa'];
 			} else {
 				$dir = 'alta_de_llamadas.php';
 			}
+			
 			header('location: ' . $dir);
 		}
 	}
@@ -83,7 +86,7 @@ if (isset($_POST['usuario']) &&
 							<td colspan="2"><label for="password">Contraseña: </label><input type="password" name="password" /></td>
 						</tr>
 						<tr>
-							<td><input type="submit" value="Entrar" id="entrar" /></td>
+							<td><input type="submit" id="entrar" /></td>
 						</tr>
 					</table>
 				</form>

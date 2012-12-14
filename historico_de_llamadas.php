@@ -4,6 +4,8 @@ header('content-type:text/html; encode=utf8');
 require_once 'configuracion.php';
 require_once 'funciones.php';
 
+administraSesion();
+
 $exito = '';
 $error = '';
 $num_fichas = '';

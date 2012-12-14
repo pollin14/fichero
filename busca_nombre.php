@@ -4,6 +4,7 @@ header('Content-type: text/json');
 require_once 'configuracion.php';
 require_once 'funciones.php';
 
+administraSesion();
 $db = dameConexion();
 
 $nombre = $db->real_escape_string($_GET['term']);

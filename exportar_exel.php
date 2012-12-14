@@ -3,6 +3,8 @@
 require_once 'configuracion.php';
 require_once 'funciones.php';
 
+administraSesion();
+
 $db = dameConexion();
 $query = 'select * from fichas order by nombre;';
 $fichas = $db->query($query);

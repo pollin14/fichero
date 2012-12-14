@@ -4,9 +4,10 @@ header('content-type:text/html; encode=utf8');
 require_once 'configuracion.php';
 require_once 'funciones.php';
 
+administraSesion();
 $db = dameConexion();
 
-$query1 = 'select * from entidad_federativa order by nombre;';
+$query1 = 'select id_ent_fed, nombre from ent_fed order by id_ent_fed;';
 $query2 = 'show columns from fichas;';
 
 $entidades = $db->query($query1);
@@ -14,6 +15,8 @@ $entidades = $db->query($query1);
 $input_id_ficha = ''; //cuando se actualice una ficha este input sera puesto en el formulario.
 $error = '';
 $exito = '';
+$javascript = '';
+$params = '';
 $accion_submit = 'Guardar';
 
 //inicializamos los datos del fichero a campos vacios.
@@ -25,6 +28,10 @@ while ($result && $row = $result->fetch_assoc()) {
 	$f[$row['Field']] = '';
 }
 
+if ( isset( $_GET['nombre'])){
+	$f['nombre'] =  $_GET['nombre'] ;
+	$params = '?nombre=' . $_GET['nombre'];
+}
 
 if (isset($_POST['id_ficha'])) {//actualizacion
 	$id = sprintf('%d', $_POST['id_ficha']);
@@ -41,7 +48,7 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 	$update = 'update fichas set ' . implode(',', $columna_valor) . ', entidad_federativa = ' . $tmp_entidad . ' where id_ficha = ' . $id . ';';
 
 	if ( !$db->query($update)) {
-		$error = 'Ups! ocurrio un problema al actualizar la ficha.';
+		$error = 'Ocurrió un problema al actualizar la ficha.';
 	} else {
 		$exito = 'Ficha actualizada.';
 	}
@@ -78,7 +85,11 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 			if (!$db->query($insert)) {
 				$error = "No se pudo guardar la nueva ficha.";
 			} else {
-				$exito = 'Ficha guarda.';
+				$exito = 'Ficha guardada.';
+				$_SESSION['exito'] = $exito;
+				if(isset($_GET['nombre'])){
+					$javascript = 'window.history.go(-2);';
+				}
 			}
 		}
 	}
@@ -96,7 +107,7 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 		<script src="js/jquery-v.js"></script>
 		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 		<script>
-			
+			<?php echo $javascript ?>
 			//El widget de sujerencias de instancias.
 			$(function() {
 				$( "#instancia input" ).autocomplete({
@@ -118,7 +129,7 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 				<h1>Alta de Ficha</h1>
 					<p class="error"><?php echo $error ?></p>
 					<p class="exito"><?php echo $exito ?></p>
-					<form name="alta_de_ficha" id="alta_de_ficha" action="alta_de_ficha.php" method="post">
+					<form name="alta_de_ficha" id="alta_de_ficha" action="alta_de_ficha.php<?php echo $params ?>" method="post">
 						<?php echo $input_id_ficha ?>
 						<table class="center">
 							<tbody>
@@ -145,7 +156,7 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 								<td>
 									<select name="entidad_federativa">
 										<?php while ($entidades && $entidad = $entidades->fetch_assoc()): ?>
-											<option value="<?php echo $entidad['id_entidad_federativa'] ?>"><?php echo $entidad['nombre'] ?></option>
+											<option value="<?php echo $entidad['id_ent_fed'] ?>"><?php echo $entidad['nombre'] ?></option>
 										<?php endwhile ?>
 									</select>
 								</td>

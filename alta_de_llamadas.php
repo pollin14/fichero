@@ -4,8 +4,10 @@ header('content-type:text/html; encode=utf8');
 require_once 'configuracion.php';
 require_once 'funciones.php';
 
+administraSesion();
+
 $error = '';
-$exito = '';
+$exito = $_SESSION['exito'];
 $resuelta = 'null';
 
 $db = dameConexion();
@@ -59,15 +61,21 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 			
 			function muestra_ficha(){
 				
-				$.ajax({
-					type:'post',
-					url:'busca_ficha.php',
-					datatype: 'html',
-					data: {nombre: $(this).val()},
-					success: function(html){
-						$('#ficha').html( html );
-					}
-				});
+					$.ajax({
+						type:'post',
+						url:'busca_ficha.php',
+						datatype: 'html',
+						data: {nombre: $(this).val()},
+						success: function(html){
+							$('#ficha').html( html );
+						}
+					});
+			}
+			
+			function concatena_nombre(){
+				var tmp = $('form input[name=nombre]').val();
+				tmp = encodeURI(tmp);
+				$(this).attr('href', $(this).attr('href') + "?nombre=" + tmp);
 			}
 			
 			//El widget de sujerencias.
@@ -79,6 +87,7 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 			
 			$(document).ready(function(){
 				$('form input[name=nombre]').bind('focusout', muestra_ficha);
+				$('#crear_nueva_ficha').bind('click',concatena_nombre);
 				$('#alta_de_llamdas').validate();
 			})
 			
@@ -124,7 +133,7 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 							<td><label for="nombre">Persona Relacionada con la Llamada</label></td>
 							<td>
 								<input type="text" name="nombre" class="required">
-								<a href="alta_de_ficha.php">Crear nueva ficha</a>
+								<a href="alta_de_ficha.php" id="crear_nueva_ficha">Crear nueva ficha</a>
 							</td>
 						</tr>
 						<tr>

@@ -4,6 +4,8 @@ header('content-type:text/html; encode=utf8');
 require_once 'configuracion.php';
 require_once 'funciones.php';
 
+administraSesion();
+
 $formulario = ['nombre', 'instancia', 'correo'];
 $nombre = '';
 $instancia = '';
@@ -123,7 +125,7 @@ if (isset($_GET['id_ficha'])) {
 					</table>
 				</form>
 				<div id="fichas">
-					<h1>Resulados (<?php echo $num_fichas ?>)</h1>
+					<h1>Resultados (<?php echo $num_fichas ?>)</h1>
 					<table class="coloreada">
 							<?php foreach ($columnas as $value): ?>
 								<th><?php echo $value ?></th>
