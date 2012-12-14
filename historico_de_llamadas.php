@@ -32,7 +32,9 @@ if (isset($_POST['fecha_final'])) {
 
 	if (fechaValida($_POST['fecha_final'])) {
 		$fe = $db->real_escape_string($_POST['fecha_final']);
-		$condicion2 = 'alta < "' . $fe .'"';
+		//le sumamos un dia a la fecha para que nos incluya las fichas
+		//que sean iguales a la fecha pasada. (menor igual no funciona)
+		$condicion2 = 'alta <= date_add("' . $fe .'",interval 1 day)';
 	}else if($_POST['fecha_final'] != ''){
 		$error .= "Fecha Final invalida. Se omite esta condicion.";
 	}
@@ -143,7 +145,7 @@ where
 						<tr><td></td><td><input type="submit" value="Consultar"</td></tr>
 					</table>
 				</form>
-					<h1>Resulados (<?php echo $num_fichas ?>)</h1>
+					<h1>Resultados (<?php echo $num_fichas ?>)</h1>
 					<table class="center coloreada">
 						<tr>
 						<?php foreach ($columnas as $value): ?>
