@@ -6,7 +6,7 @@ require_once 'funciones.php';
 
 $db = dameConexion();
 
-$query1 = 'select * from ent_fed order by nombre;';
+$query1 = 'select * from entidad_federativa order by nombre;';
 $query2 = 'show columns from fichas;';
 
 $entidades = $db->query($query1);
@@ -30,15 +30,15 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 	$id = sprintf('%d', $_POST['id_ficha']);
 	$columna_valor = array();
 
-	$tmp_entidad = $_POST['ent_fed'];
-	unset($_POST['ent_fed']);
+	$tmp_entidad = $_POST['entidad_federativa'];
+	unset($_POST['entidad_federativa']);
 	unset($_POST['submit']);
 
 	foreach ($_POST as $key => $value) {
 		array_push($columna_valor, $key . '="' . $db->real_escape_string($value) . '"');
 	}
 
-	$update = 'update fichas set ' . implode(',', $columna_valor) . ', ent_fed = ' . $tmp_entidad . ' where id_ficha = ' . $id . ';';
+	$update = 'update fichas set ' . implode(',', $columna_valor) . ', entidad_federativa = ' . $tmp_entidad . ' where id_ficha = ' . $id . ';';
 
 	if ( !$db->query($update)) {
 		$error = 'Ups! ocurrio un problema al actualizar la ficha.';
@@ -72,9 +72,11 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 				array_push($columnas, $key);
 				array_push($valores, "\"" . $db->real_escape_string($value) . "\"");
 			}
-
+			
+			$insert = 'insert into fichas ('. implode( ',', $columnas ) .') values (' . implode(',',$valores) . ');';
+			
 			if (!$db->query($insert)) {
-				$error = "Ups! No se pudo guardar la nueva ficha.";
+				$error = "No se pudo guardar la nueva ficha.";
 			} else {
 				$exito = 'Ficha guarda.';
 			}
@@ -139,11 +141,11 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 										type="text" 
 										value="<?php echo $f['nombre'] ?>">
 								</td>
-								<td><label for="ent_fed" title="Puede ser nombre COMPLETO o PARCIAL">Entidad Federativa:</label></td>
+								<td><label for="entidad_federativa" title="Puede ser nombre COMPLETO o PARCIAL">Entidad Federativa:</label></td>
 								<td>
-									<select name="ent_fed">
+									<select name="entidad_federativa">
 										<?php while ($entidades && $entidad = $entidades->fetch_assoc()): ?>
-											<option value="<?php echo $entidad['id_ent_fed'] ?>"><?php echo $entidad['nombre'] ?></option>
+											<option value="<?php echo $entidad['id_entidad_federativa'] ?>"><?php echo $entidad['nombre'] ?></option>
 										<?php endwhile ?>
 									</select>
 								</td>
@@ -214,18 +216,18 @@ if (isset($_POST['id_ficha'])) {//actualizacion
 							<tr>
 								<td><label for="nombre1" title="Puede ser nombre COMPLETO o PARCIAL">Nombre(s):</label></td>
 								<td><input 
-										name="nom_asist" 
+										name="nombre_asistente" 
 										onkeyup="this.value=this.value.toUpperCase();" 
 										type="text" 
 										value="<?php echo $f['nombre_asistente'] ?>">
 								</td>
-								<td><label for="correo_asist">Correo:</label></td>
-								<td><input name="correo_asist" type="text" value="<?php echo $f['correo_asistente'] ?>" class="email"></td>
+								<td><label for="correo_asistente">Correo:</label></td>
+								<td><input name="correo_asistente" type="text" value="<?php echo $f['correo_asistente'] ?>" class="email"></td>
 							<tr>
-								<td><label for="telefono_asist">Teléfono:</label></td>
-								<td><input name="telefono_asist" type="text" value="<?php echo $f['telefono_asistente'] ?>"></td>
-								<td><label for="ext_asist">Ext:</label></td>
-								<td><input name="ext_asist" type="text" value="<?php echo $f['ext_asistente'] ?>"></td>
+								<td><label for="telefono_asistente">Teléfono:</label></td>
+								<td><input name="telefono_asistente" type="text" value="<?php echo $f['telefono_asistente'] ?>"></td>
+								<td><label for="ext_asistente">Ext:</label></td>
+								<td><input name="ext_asistente" type="text" value="<?php echo $f['ext_asistente'] ?>"></td>
 							</tr>
 							<tr>
 								<td></td>
