@@ -7,6 +7,10 @@ require_once 'funciones.php';
 administraSesion();
 $db = dameConexion();
 
+if( !isset($_GET['term'])){
+	exit();
+}
+
 $instancia = $db->real_escape_string($_GET['term']);
 
 $query = "select instancia from fichas where instancia like '%". $instancia . "%' order by instancia limit 10;";

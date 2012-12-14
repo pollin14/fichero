@@ -7,6 +7,10 @@ require_once 'funciones.php';
 administraSesion();
 $db = dameConexion();
 
+if( !isset($_GET['term'])){
+	exit();
+}
+
 $nombre = $db->real_escape_string($_GET['term']);
 
 $query = "select nombre from fichas where nombre like '%". $nombre . "%' order by nombre limit 10;";

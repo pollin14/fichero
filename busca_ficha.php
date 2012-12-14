@@ -4,8 +4,12 @@ header('Content-type: text/html');
 require_once 'configuracion.php';
 require_once 'funciones.php';
 
-administraSession();
+administraSesion();
 $db = dameConexion();
+
+if( !isset( $_POST['nombre'] )){
+	exit();
+}
 
 $nombre = $db->real_escape_string($_POST['nombre']);
 
