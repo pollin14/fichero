@@ -22,7 +22,7 @@ if (isset($_GET['id_ficha'])) {
 	if ($db->query($delete)) {
 		$exito = 'Ficha borrada.';
 	} else {
-		$error = 'Ups! No se pudo borrar la ficha.';
+		$error = 'No se pudo borrar la ficha.';
 	}
 } else {
 	if (isset($_POST['nombre'])) {

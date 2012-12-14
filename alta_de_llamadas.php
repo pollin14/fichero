@@ -40,7 +40,7 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 	if ($db->query($insert)) {
 		$exito = 'Llamda guardada.';
 	} else {
-		$error = 'Ups! Ocurrio un problema al guardar la llamada.';
+		$error = 'Ocurrió un problema al guardar la llamada.';
 	}
 }
 ?>

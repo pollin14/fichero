@@ -42,7 +42,7 @@ if ( isset( $_POST['id_llamada']) && isset( $_POST['id_usuario_resolvio'] )){
 	if ( $db->query ($update) ){
 		$exito = 'Llamada actualizada';
 	}else{
-		$error = 'Ups! No se pudo actualizar la llamada.';
+		$error = 'No se pudo actualizar la llamada.';
 	}
 }
 
