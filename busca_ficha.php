@@ -16,7 +16,10 @@ $ficha = array();
 
 if( $result ){
 	$columnas = $result->fetch_fields();
-	$ficha = $result->fetch_row();	
+	$ficha = $result->fetch_row();
+	if( $result->num_rows == 0){
+		exit();
+	}
 }
 
 $len = count($columnas);
