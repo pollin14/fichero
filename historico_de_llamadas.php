@@ -67,15 +67,14 @@ select
 	reg_llamadas.alta as "fecha de alta",
 	reg_llamadas.resuelta as "fecha de resolucion",
 	reg_llamadas.status,
-	tipos_de_llamada.tipo as "tipo de llamada",
+	reg_llamadas.tipo_de_llamada as  "tipo de llamada",
 	x.nombre as "persona que asigno",
 	usuarios.nombre as "persona que resolvio"
 from 
 		reg_llamadas
 			left join fichas using(id_ficha)
-				left join usuarios on (id_usuario_resolvio = usuarios.id_user)					
-					left join tipos_de_llamada using(id_tipo_de_llamada)
-						left join usuarios as x on (reg_llamadas.id_asignacion = x.id_user)
+				left join usuarios on (id_usuario_resolvio = usuarios.id_usuario)					
+						left join usuarios as x on (reg_llamadas.id_usuario_asignacion = x.id_usuario)
 where
 	(fichas.nombre like \'%' . $palabra_clave . '%\'
 		or
@@ -83,7 +82,7 @@ where
 	and ' . $condicion1 . '
 	and ' . $condicion2 . '
 	order by nombre;';
-
+	
 	$fichas = $db->query($query1);
 
 	if ($fichas) {
