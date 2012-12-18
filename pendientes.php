@@ -15,34 +15,33 @@ select
 	reg_llamadas.id_llamada,
 	fichas.id_ficha,
 	fichas.nombre as \'\',
-	tipos_de_llamada.tipo as llamada,
 	reg_llamadas.alta as fecha,
+	reg_llamadas.tipo_de_llamada,
 	usuarios.nombre as registro,
 	reg_llamadas.notas
 from 
 	reg_llamadas 
-	left join usuarios on ( reg_llamadas.id_asignacion = id_user ) 
+	left join usuarios on ( reg_llamadas.id_usuario_asignacion = id_usuario ) 
 		left join fichas using( id_ficha )
-			left join tipos_de_llamada using( id_tipo_de_llamada )
 where 
-	status = 1;';
+	status = "pendiente";';
 
-if ( isset( $_POST['id_llamada']) && isset( $_POST['id_usuario_resolvio'] )){
-	
+if (isset($_POST['id_llamada']) && isset($_POST['id_usuario_resolvio'])) {
+
 	$columna_valor = array();
-	
+
 	$id_llamada = sprintf('%d', $_POST['id_llamada']);
 	unset($_POST['id_llamada']);
-	
+
 	foreach ($_POST as $key => $value) {
 		array_push($columna_valor, $key . '="' . $db->real_escape_string($value) . '"');
 	}
-	
-	$update = 'update reg_llamadas set ' . implode(',', $columna_valor ) . ' where id_llamada = ' . $id_llamada .';';
 
-	if ( $db->query ($update) ){
+	$update = 'update reg_llamadas set ' . implode(',', $columna_valor) . ' where id_llamada = ' . $id_llamada . ';';
+
+	if ($db->query($update)) {
 		$exito = 'Llamada actualizada';
-	}else{
+	} else {
 		$error = 'No se pudo actualizar la llamada.';
 	}
 }
@@ -64,8 +63,6 @@ $llamadas = $db->query($query);
 			<div id="menu"><?php include 'componentes/menu.php' ?></div>
 			<div id="container">
 				<h1>Pendientes</h1>
-				<p class="error"><?php echo $error ?></p>
-				<p class="exito"><?php echo $exito ?></p>
 				<table class="center coloreada">
 					<tr>
 						<td>Accion</td><td>Datos de la Llamada</td>
@@ -87,13 +84,13 @@ $llamadas = $db->query($query);
 									<?php echo $val ?>
 								<?php endforeach ?><br>
 								<form action="pendientes.php" method="post">
-									<input type="hidden" name="id_llamada" value="<?php echo $id_llamada?>">
-									<input type="hidden" name="id_usuario_resolvio" value="<?php echo $_SESSION['id_usuario']?>">
+									<input type="hidden" name="id_llamada" value="<?php echo $id_llamada ?>">
+									<input type="hidden" name="id_usuario_resolvio" value="<?php echo $_SESSION['id_usuario'] ?>">
 									<table>
 										<tr>
 											<td><label for="status">Marcar como resuelta</label>
-												</td>
-											<td><input type="checkbox" value="0" name="status"></td>
+											</td>
+											<td><input type="checkbox" value="resuelta" name="status"></td>
 										</tr>
 										<tr>
 											<td>Notas</td>

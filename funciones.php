@@ -39,4 +39,10 @@ function fechaValida($strDate, $format = ['y', 'm', 'd'], $ex = '/') {
 	return $valid;
 }
 
+function debug($var){
+	echo '<pre>';
+	print_r($var);
+	echo '</pre>';
+}
+
 ?>

@@ -97,6 +97,13 @@ if (isset($_GET['id_ficha'])) {
 				});
 			});
 			
+			$(document).ready(function(){
+				$('.error, .exito').fadeOut(6000, function(){
+					$(this).html('');
+					$(this).fadeIn();
+				})
+			})
+			
 		</script>
         <title>SISETIC: Consulta de Ficha</title>
     </head>
@@ -106,8 +113,8 @@ if (isset($_GET['id_ficha'])) {
 			<div id="menu"><?php include 'componentes/menu.php' ?></div>
 			<div id="container">
 				<h1>Consulta de Fichas </h1>
-				<p class="error"><?php echo $error ?></p>
-				<p class="exito"><?php echo $exito ?></p>
+				
+				<?php include 'componentes/exito_error.php'?>
 				<form id="consulta_de_fichas" action="consulta_de_fichas.php" method="post">
 					<table class="center">
 						<colgroup>

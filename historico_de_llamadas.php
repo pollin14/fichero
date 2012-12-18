@@ -22,8 +22,8 @@ if (isset($_POST['fecha_inicial'])) {
 
 	if (fechaValida($_POST['fecha_inicial'])) {
 		$fi = $db->real_escape_string($_POST['fecha_inicial']);
-		$condicion1 = 'alta > "' . $fi .'"';
-	}else if($_POST['fecha_inicial'] != ''){
+		$condicion1 = 'alta > "' . $fi . '"';
+	} else if ($_POST['fecha_inicial'] != '') {
 		$error = "Fecha Inicial invalida. Se omite esta condicion.<br>";
 	}
 
@@ -36,8 +36,8 @@ if (isset($_POST['fecha_final'])) {
 		$fe = $db->real_escape_string($_POST['fecha_final']);
 		//le sumamos un dia a la fecha para que nos incluya las fichas
 		//que sean iguales a la fecha pasada. (menor igual no funciona)
-		$condicion2 = 'alta <= date_add("' . $fe .'",interval 1 day)';
-	}else if($_POST['fecha_final'] != ''){
+		$condicion2 = 'alta <= date_add("' . $fe . '",interval 1 day)';
+	} else if ($_POST['fecha_final'] != '') {
 		$error .= "Fecha Final invalida. Se omite esta condicion.";
 	}
 
@@ -50,13 +50,13 @@ if (isset($_POST['palabra_clave'])) {
 }
 
 if ($post) {
-	
+
 	$columnas = [
 		'Nombre',
 		'Notas',
 		'Fecha de Alta',
 		'Fecha de Resolucion',
-		'status','Tipo de Llamada', 
+		'status', 'Tipo de Llamada',
 		'Persona que Asigno',
 		'Persona que Resolvio'];
 	$query1 = '
@@ -132,8 +132,8 @@ where
 			<div id="menu"><?php include 'componentes/menu.php' ?></div>
 			<div id="container">
 				<h1>Historial de Llamadas</h1>
-				<p class="error"><?php echo $error ?></p>
-				<p class="exito"><?php echo $exito ?></p>
+				<?php include 'componentes/exito_error.php' ?>
+
 				<form id="consulta_de_fichas" action="historico_de_llamadas.php" method="post">
 					<table class="center">
 						<colgroup>
@@ -147,24 +147,24 @@ where
 						<tr><td></td><td><input type="submit" value="Consultar"</td></tr>
 					</table>
 				</form>
-					<h1>Resultados (<?php echo $num_fichas ?>)</h1>
-					<table class="center coloreada">
-						<tr>
+				<h1>Resultados (<?php echo $num_fichas ?>)</h1>
+				<table class="center coloreada">
+					<tr>
 						<?php foreach ($columnas as $value): ?>
 							<th><?php echo $value ?></th>
 						<?php endforeach ?>
+					</tr>
+
+					<?php while ($fichas && $ficha = $fichas->fetch_row()): ?>
+						<tr>
+							<?php unset($ficha[0]); ?>
+							<?php foreach ($ficha as $value): ?>
+								<td><?php echo $value ?></td>
+							<?php endforeach ?>
 						</tr>
+					<?php endwhile ?>
 
-						<?php while ($fichas && $ficha = $fichas->fetch_row()): ?>
-							<tr>
-								<?php unset($ficha[0]); ?>
-								<?php foreach ($ficha as $value): ?>
-									<td><?php echo $value ?></td>
-								<?php endforeach ?>
-							</tr>
-						<?php endwhile ?>
-
-					</table>
+				</table>
 			</div>
 			<div id="footer"></div>
 		</div>

@@ -31,7 +31,7 @@ background-image: -webkit-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
 	color: #262D4A;
 }
 
-input{
+input[type='text'], input[type='submit'], input[type='password']{
 	border: solid #336699 thin;
 }
 input:focus{
@@ -55,6 +55,12 @@ table tr th{
 	padding-top:15px;
 	text-align:left;
 	font-size:14px;
+}
+
+.resaltar{
+	font-weight: bold;
+	font-size:16px;
+	font-family: monospace;
 }
 
 #wrapper{
@@ -190,6 +196,7 @@ label.error, p.error,.exito{
 	color:red;
 	font-weight: bold;
 	text-align:center;
+	height:16px;
 }
 
 

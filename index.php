@@ -27,8 +27,8 @@ if (isset($_POST['usuario']) &&
 	$contraseña = $_POST['password'];
 	$db = dameConexion();
 
-	$query = sprintf("select id_user 
-	from usuarios where usr='%s' and pwd ='%s';", $usuario, $contraseña);
+	$query = sprintf("select id_usuario 
+	from usuarios where usuario='%s' and password ='%s';", $usuario, $contraseña);
 	$result = $db->query($query);
 
 	if (!$result) {
