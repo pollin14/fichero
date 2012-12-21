@@ -9,7 +9,7 @@ $error = "";
 session_start();
 
 if (isset($_SESSION['id_usuario'])) {
-	header('location: alta_de_llamadas.php');
+	header('location: alta_de_llamada.php');
 }
 
 
@@ -47,7 +47,7 @@ if (isset($_POST['usuario']) &&
 			if (isset($_GET['pa'])) {
 				$dir = $_GET['pa'];
 			} else {
-				$dir = 'alta_de_llamadas.php';
+				$dir = 'alta_de_llamada.php';
 			}
 			
 			header('location: ' . $dir);
