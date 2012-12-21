@@ -57,13 +57,53 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="css/sisetic.css" />
 		<link rel="shortcut icon" href="css/favicon.png" >
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+		<link rel="stylesheet" href="css/jquery-ui.css" />
 		<script src="js/jquery.js"></script>
 		<script src="js/jquery-v.js"></script>
-		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+		<script src="js/jquery-ui.js"></script>
+		<script src="js/jquery-form.js"></script>
 		<script>
+			//El widget de sujerencias.
+			$(function() {
+				$( "#alta_de_llamada input[name=nombre]" ).autocomplete({
+					source: "busca_nombre.php"
+				});
+			});
 			
-			function muestra_ficha(){
+			//funciones
+			
+			function carga_alta_de_ficha(url,event){
+				$('#frame').load(url,function(){
+					$(this).children('form').validate();
+					$(this).children('form').find('input[name=instancia]').autocomplete({
+						source: 'busca_instancia.php'
+					})
+				});
+				event.preventDefault();
+			}
+			
+			function normaliza_datos(form){
+				
+				//Eliminamos espacios en blanco al principio y al final de cada
+				//campo y pasamos todos a mayusculas con excepcion
+				//de los correos electronicos y la pagina web.
+				form.find('input').each(function(){
+					
+					var tmp = $.trim( $(this).val() );
+					
+					if( $.inArray( 
+					$(this).attr('name'), 
+					['correo_1','correo_2','correo_asistente','web_site']) != -1 ){
+						tmp = tmp.toLowerCase();
+					}else{
+						tmp = tmp.toUpperCase();
+					}
+					
+					$(this).val( tmp )
+				});
+			}
+			
+			function muestra_ficha(event){
 				
 				$.ajax({
 					type:'post',
@@ -71,40 +111,52 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 					datatype: 'html',
 					data: {nombre: $(this).val()},
 					success: function(html){
-						$('#ficha').html( html );
-						if( $(html).find('#link').length == 1){ //respuesta positiva?
+						$('#frame').html( html );
+						if( $(html).find('#link').length == 1){ //respuesta positiva
 							$('form').find('input[type=submit]').removeProp('disabled');
+						}else{
+							var tmp = $('#alta_de_llamada input[name=nombre]').val();
+							carga_alta_de_ficha('alta_de_ficha.php?nombre=' + tmp,event);
 						}
 					}
 				});
-			}
-			
-			function concatena_nombre(){
-				var tmp = $('form input[name=nombre]').val();
-				tmp = encodeURI(tmp);
-				$(this).attr('href', $(this).attr('href') + "?nombre=" + tmp);
+				
 			}
 			
 			function inhabilita(){
 				$('form').find('input[type=submit]').prop('disabled',true);
 			}
 			
-			//El widget de sujerencias.
-			$(function() {
-				$( "#alta_de_llamadas input[name=nombre]" ).autocomplete({
-					source: "busca_nombre.php"
-				});
-			});
-			
 			$(document).ready(function(){
-				$('form input[name=nombre]').bind('focusout', muestra_ficha);
-				$('form input[name=nombre]').bind('focus',inhabilita);
-				$('#crear_nueva_ficha').bind('click',concatena_nombre);
-				$('#alta_de_llamdas').validate();
-				$('.error, .exito').fadeOut(6000, function(){
-					$(this).html('');
-					$(this).fadeIn();
+				
+				//Asignacion de eventos
+				$('form input[name=nombre]').on('focusout', muestra_ficha);
+				
+				$('form input[name=nombre]').on('focus',inhabilita);
+				
+				$('#frame').on('click','a',function(event){
+					carga_alta_de_ficha($(this).attr('href'),event);
+				});
+				
+				$('#frame').on('submit', 'form',function(){
+					
+					normaliza_datos($(this));
+					
+					$(this).ajaxSubmit({
+						datatype:'html',
+						success: function(html){
+							$('#frame').html(html);
+						}
+					});
+					return false;
 				})
+				
+				$('#crear_nueva_ficha').on('click',function(event){
+					var tmp = encodeURI($('form input[name=nombre]').val());
+					carga_alta_de_ficha($(this).attr('href') + '?nombre=' +  tmp,event);
+				});
+				
+				$('#alta_de_llamdas').validate();
 			})
 			
 		</script>
@@ -116,10 +168,10 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 			<div id="menu"><?php include 'componentes/menu.php' ?></div>
 			<div id="container">
 				<h1>Alta de Llamadas </h1>
-				
+
 				<?php include 'componentes/exito_error.php' ?>
-				
-				<form action="alta_de_llamadas.php" method="post" id="alta_de_llamadas">
+
+				<form action="alta_de_llamada.php" method="post" id="alta_de_llamada">
 					<table class="center">
 						<colgroup>
 							<col class="labels">
@@ -171,7 +223,7 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 						</tr>
 					</table>
 				</form>
-				<div id="ficha">
+				<div id="frame">
 				</div>
 			</div>
 			<div id="footer"></div>

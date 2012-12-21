@@ -60,7 +60,7 @@ $len = count($columnas);
 ?>
 
 <!-- Esta campo se envia en el formulario principal de alta_de_llamadas" (html5) -->
-<input type="hidden" value="<?php echo $id_ficha?>" name="id_ficha" form="alta_de_llamadas">
+<input type="hidden" value="<?php echo $id_ficha?>" name="id_ficha" form="alta_de_llamada">
 
 <table class="center coloreada">
 	<tr>

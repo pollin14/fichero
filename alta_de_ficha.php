@@ -15,8 +15,6 @@ $entidades = $db->query($query1);
 $input_id_ficha = ''; //cuando se actualice una ficha este input sera puesto en el formulario.
 $error = '';
 $exito = '';
-$js = '';
-$params = '';
 $accion_submit = 'Guardar';
 $id_ent_fed = -1;
 
@@ -30,11 +28,8 @@ while ($result && $row = $result->fetch_assoc()) {
 }
 
 if (isset($_GET['nombre'])) {
-	if (isset($_POST['nombre'])) {
-		$js = 'window.close();';
-	} else {
+	if (!isset($_POST['nombre'])) {
 		$f['nombre'] = $_GET['nombre'];
-		$params = '?nombre=' . $_GET['nombre'];
 	}
 }
 
@@ -48,7 +43,7 @@ if (isset($_GET['id_ficha'])) { //actualizamos
 			array_push($columna_valor, $key . '="' . $db->real_escape_string($value) . '"');
 		}
 
-		$update = 'update fichas set ' . implode(',', $columna_valor) . ' where id_ficha = ' . $id . ';';
+		$update = sprintf('update fichas set ' . implode(',', $columna_valor) . ' where id_ficha = %d;', $id);
 
 		if (!$db->query($update)) {
 			$error = 'Ocurrió un problema al actualizar la ficha.';
@@ -93,172 +88,129 @@ if (isset($_GET['id_ficha'])) { //actualizamos
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" type="text/css" href="css/sisetic.css" />
-		<link rel="shortcut icon" href="css/favicon.png" >
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
-		<script src="js/jquery.js"></script>
-		<script src="js/jquery-v.js"></script>
-		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-		<script>
-<?php echo $js ?>
-	//El widget de sujerencias de instancias.
-	$(function() {
-		$( "#instancia input" ).autocomplete({
-			source: "busca_instancia.php"
-		});
-	});
-				
-	$(document).ready(function(){
-		$('#alta_de_ficha').validate();
-		$('.error, .exito').fadeOut(6000, function(){
-			$(this).html('');
-			$(this).fadeIn();
-		})
-	})
-		</script>
-		<title>SISETIC: Alta de Ficha</title>
-	</head>
-	<body>
-		<div id="wrapper">
-			<div id="header"></div>
-			<div id="menu"><?php include 'componentes/menu.php' ?></div>
-			<div id="container">
-				<h1>Alta de Ficha</h1>
+<h1>Alta de Ficha</h1>
 
 <?php include 'componentes/exito_error.php' ?>
-				<form name="alta_de_ficha" id="alta_de_ficha" action="<?php echo $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'] ?>" method="post">
-				<?php echo $input_id_ficha ?>
-					<table class="center">
-						<tbody>
-						<colgroup>
-							<col class="labels">
-							<col>
-							<col class="labels">
-							<col>
-						</colgroup>
-						<tr>
-							<th colspan="2">Ingresar los datos de la persona.</th>
-						</tr>
-						<tr>
-							<td><label for="nombre" title="Puede ser nombre COMPLETO o PARCIAL">Nombre:</label></td>
-							<td>
-								<input 
-									class="required"
-									name="nombre" 
-									onkeyup="this.value=this.value.toUpperCase();" 
-									type="text" 
-									value="<?php echo $f['nombre'] ?>">
-							</td>
-							<td><label for="entidad_federativa" title="Puede ser nombre COMPLETO o PARCIAL">Entidad Federativa:</label></td>
-							<td>
-								<select name="id_entidad_federativa" >
-									<!-- Esta seleccionado el id de la entidad federativa -->
-<?php while ($entidades && $entidad = $entidades->fetch_row()): ?>
-										<option value="<?php echo $entidad[0] ?>"  
-										<?php if ($entidad[0] == $id_ent_fed): ?>
-											<?php echo 'selected'; ?>
-										<?php endif ?>
-												><?php echo $entidad[1] ?>
-										</option>
-<?php endwhile ?>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td><label for="instancia" title="Puede ser nombre COMPLETO o PARCIAL">Instancia:</label></td>
-							<td id="instancia">
-								<input 
-									name="instancia"
-									onkeyup="this.value=this.value.toUpperCase();" 
-									type="text"
-									value="<?php echo $f['instancia'] ?>">
-								<div class="sugerencias"></div>
-							</td>
-							<td><label for="domicilio" title="Puede ser nombre COMPLETO o PARCIAL">Domicilio:</label></td>
-							<td>
-								<input 
-									name="domicilio"
-									onkeyup="this.value=this.value.toUpperCase();" 
-									type="text"
-									value="<?php echo $f['domicilio'] ?>">
-							</td>
-						</tr>
-						<tr>
-							<td><label for="cargo" title="Puede ser nombre COMPLETO o PARCIAL">Cargo:</label></td>
-							<td><input 
-									name="cargo" 
-									onkeyup="this.value=this.value.toUpperCase();" 
-									type="text"
-									value="<?php echo $f['cargo'] ?>">
-							</td>
-						</tr>
-						<tr>
-							<td><label for="telefono">Teléfono:</label></td>
-							<td><input name="telefono" type="text" value="<?php echo $f['telefono'] ?>"> </td>
-							<td><label for="ext">Ext:</label></td>
-							<td><input name="ext" type="text" value="<?php echo $f['ext'] ?>"></td>
-						</tr>
-						<tr>
-							<td><label for="fac">Fax:</label></td>
-							<td><input name="fax" type="text" value="<?php echo $f['fax'] ?>"></td>
-							<td><label for="movil">Móvil:</label></td>
-							<td><input name="movil" type="text" value="<?php echo $f['movil'] ?>"></td>
-						</tr>
-						<tr>
-							<td><label for="casa">Casa:</label></td>
-							<td><input name="casa" type="text" value="<?php echo $f['casa'] ?>"></td>
-							<td><label for="nextel">Nextel:</label></td>
-							<td><input name="nextel" type="text" value="<?php echo $f['nextel'] ?>"></td>
-						</tr>
-						<tr>
-							<td><label for="otros">Otros:</label></td>
-							<td><input name="otros" type="text" value="<?php echo $f['otros'] ?>"></td>
-						</tr>
-						<tr>
-							<td><label for="correo_1">Correo 1:</label></td>
-							<td><input name="correo_1" type="text" value="<?php echo $f['correo_1'] ?>" class="email"></td>
-							<td><label for="correo_2">Correo 2:</label></td>
-							<td><input name="correo_2" type="text" value="<?php echo $f['correo_2'] ?>" class="email"></td>
-						</tr>
-						<tr>
-							<td><label for="web_site">WebSite:</label></td>
-							<td><input name="web_site" type="text" value="<?php echo $f['web_site'] ?>"></td>
-						</tr>
-						<tr>
-							<th colspan="2">Datos del Enlace.</th>
-						</tr>
-						<tr>
-							<td><label for="nombre1" title="Puede ser nombre COMPLETO o PARCIAL">Nombre(s):</label></td>
-							<td><input 
-									name="nombre_asistente" 
-									onkeyup="this.value=this.value.toUpperCase();" 
-									type="text" 
-									value="<?php echo $f['nombre_asistente'] ?>">
-							</td>
-							<td><label for="correo_asistente">Correo:</label></td>
-							<td><input name="correo_asistente" type="text" value="<?php echo $f['correo_asistente'] ?>" class="email"></td>
-						<tr>
-							<td><label for="telefono_asistente">Teléfono:</label></td>
-							<td><input name="telefono_asistente" type="text" value="<?php echo $f['telefono_asistente'] ?>"></td>
-							<td><label for="ext_asistente">Ext:</label></td>
-							<td><input name="ext_asistente" type="text" value="<?php echo $f['ext_asistente'] ?>"></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td><input type="submit" value="<?php echo $accion_submit ?>"></td>
-						</tr>
-						</tbody>
-					</table>
-				</form>
+<form name="alta_de_ficha" id="alta_de_ficha" action="<?php echo $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'] ?>" method="post">
+	<?php echo $input_id_ficha ?>
+	<table class="center">
+		<tbody>
+		<colgroup>
+			<col class="labels">
+			<col>
+			<col class="labels">
+			<col>
+		</colgroup>
+		<tr>
+			<th colspan="2">Ingresar los datos de la persona.</th>
+		</tr>
+		<tr>
+			<td><label for="nombre" title="Puede ser nombre COMPLETO o PARCIAL">Nombre:</label></td>
+			<td>
+				<input 
+					class="required"
+					name="nombre" 
 
-			</div>
-			<div id="footer"></div>
-		</div>
-    </body>
-</html>
+					type="text" 
+					value="<?php echo $f['nombre'] ?>">
+			</td>
+			<td><label for="entidad_federativa" title="Puede ser nombre COMPLETO o PARCIAL">Entidad Federativa:</label></td>
+			<td>
+				<select name="id_entidad_federativa" >
+					<!-- Esta seleccionado el id de la entidad federativa -->
+					<?php while ($entidades && $entidad = $entidades->fetch_row()): ?>
+						<option value="<?php echo $entidad[0] ?>"  
+						<?php if ($entidad[0] == $id_ent_fed): ?>
+							<?php echo 'selected'; ?>
+						<?php endif ?>
+								><?php echo $entidad[1] ?>
+						</option>
+					<?php endwhile ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="instancia" title="Puede ser nombre COMPLETO o PARCIAL">Instancia:</label></td>
+			<td id="instancia">
+				<input 
+					name="instancia"
+					type="text"
+					value="<?php echo $f['instancia'] ?>">
+				<div class="sugerencias"></div>
+			</td>
+			<td><label for="domicilio" title="Puede ser nombre COMPLETO o PARCIAL">Domicilio:</label></td>
+			<td>
+				<input 
+					name="domicilio"
+					type="text"
+					value="<?php echo $f['domicilio'] ?>">
+			</td>
+		</tr>
+		<tr>
+			<td><label for="cargo" title="Puede ser nombre COMPLETO o PARCIAL">Cargo:</label></td>
+			<td><input 
+					name="cargo" 
+					type="text"
+					value="<?php echo $f['cargo'] ?>">
+			</td>
+		</tr>
+		<tr>
+			<td><label for="telefono">Teléfono:</label></td>
+			<td><input name="telefono" type="text" value="<?php echo $f['telefono'] ?>"> </td>
+			<td><label for="ext">Ext:</label></td>
+			<td><input name="ext" type="text" value="<?php echo $f['ext'] ?>"></td>
+		</tr>
+		<tr>
+			<td><label for="fac">Fax:</label></td>
+			<td><input name="fax" type="text" value="<?php echo $f['fax'] ?>"></td>
+			<td><label for="movil">Móvil:</label></td>
+			<td><input name="movil" type="text" value="<?php echo $f['movil'] ?>"></td>
+		</tr>
+		<tr>
+			<td><label for="casa">Casa:</label></td>
+			<td><input name="casa" type="text" value="<?php echo $f['casa'] ?>"></td>
+			<td><label for="nextel">Nextel:</label></td>
+			<td><input name="nextel" type="text" value="<?php echo $f['nextel'] ?>"></td>
+		</tr>
+		<tr>
+			<td><label for="otros">Otros:</label></td>
+			<td><input name="otros" type="text" value="<?php echo $f['otros'] ?>"></td>
+		</tr>
+		<tr>
+			<td><label for="correo_1">Correo 1:</label></td>
+			<td><input name="correo_1" type="text" value="<?php echo $f['correo_1'] ?>" class="email"></td>
+			<td><label for="correo_2">Correo 2:</label></td>
+			<td><input name="correo_2" type="text" value="<?php echo $f['correo_2'] ?>" class="email"></td>
+		</tr>
+		<tr>
+			<td><label for="web_site">WebSite:</label></td>
+			<td><input name="web_site" type="text" value="<?php echo $f['web_site'] ?>"></td>
+		</tr>
+		<tr>
+			<th colspan="2">Datos del Enlace.</th>
+		</tr>
+		<tr>
+			<td><label for="nombre1" title="Puede ser nombre COMPLETO o PARCIAL">Nombre(s):</label></td>
+			<td><input 
+					name="nombre_asistente" 
+					type="text" 
+					value="<?php echo $f['nombre_asistente'] ?>">
+			</td>
+			<td><label for="correo_asistente">Correo:</label></td>
+			<td><input name="correo_asistente" type="text" value="<?php echo $f['correo_asistente'] ?>" class="email"></td>
+		<tr>
+			<td><label for="telefono_asistente">Teléfono:</label></td>
+			<td><input name="telefono_asistente" type="text" value="<?php echo $f['telefono_asistente'] ?>"></td>
+			<td><label for="ext_asistente">Ext:</label></td>
+			<td><input name="ext_asistente" type="text" value="<?php echo $f['ext_asistente'] ?>"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td><input type="submit" value="<?php echo $accion_submit ?>"></td>
+		</tr>
+		</tbody>
+	</table>
+</form>
+
