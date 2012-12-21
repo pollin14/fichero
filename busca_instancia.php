@@ -13,7 +13,7 @@ if( !isset($_GET['term'])){
 
 $instancia = $db->real_escape_string($_GET['term']);
 
-$query = "select instancia from fichas where instancia like '%". $instancia . "%' order by instancia limit 10;";
+$query = "select instancia from fichas where instancia like '%". $instancia . "%' group by instancia order by instancia limit 10;";
 
 $result = $db->query( $query );
 
