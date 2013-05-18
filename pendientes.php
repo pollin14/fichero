@@ -54,7 +54,56 @@ $llamadas = $db->query($query);
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="css/sisetic.css" />
-		<link rel="shortcut icon" href="css/favicon.png" >
+		<link rel="shortcut icon" href="css/favicon.png">
+		<script src="libs/js/jquery.js"></script>
+		<script>
+			var cache = new Array();
+			
+			$(document).ready(function(){
+				
+				//Asignación de eventos.
+				$('#pendientes').on('click','a.ficha',function(){
+					
+					//Ocultamos todas las demas fichas.
+					while( cache.length > 0){
+						cache.pop().hide('slow');
+					}
+					
+					var tmp = $(this).siblings('div');
+					cache.push(tmp);
+					tmp.load($(this).attr('href'),function(){
+						$(this).show('slow')
+					});
+					
+					return false;
+				});
+				
+				$('#pendientes').on('click','a.borrar',function(){
+					
+					var borrable = confirm('¿Estás seguro que quieres borrar esta llamada pendiente permanentemente?')
+					if( borrable ){
+						$.ajax({
+							url: $(this).attr('href'),
+							datatype: 'text',
+							success: function(text){
+								if(text == 'borrado'){	
+									$(self).css('background-color','red');
+									$(self).css('width','200px');
+									$(self).css('height','200px');
+								}else{
+									$(this).
+										siblings('div').
+										html( '<p class="error"> No se pudo borrar la llamada pendiente</p>').
+										fadeOut('slow');
+								}
+							}
+						});
+					}
+					
+					return false;
+				})
+			})
+		</script>
         <title>SISETIC: Pendientes</title>
     </head>
     <body>
@@ -63,26 +112,34 @@ $llamadas = $db->query($query);
 			<div id="menu"><?php include 'componentes/menu.php' ?></div>
 			<div id="container">
 				<h1>Pendientes</h1>
-				<table class="center coloreada">
+				<table class="center coloreada" id="pendientes">
 					<tr>
 						<td>Accion</td><td>Datos de la Llamada</td>
 					</tr>
 					<?php while ($llamadas && $llamada = $llamadas->fetch_assoc()): ?>
 						<tr>
-							<td><a href="alta_de_ficha.php?id_ficha=
-								<?php
-								$id_llamada = $llamada['id_llamada'];
-								$notas = $llamada['notas'];
-								echo $llamada['id_ficha'];
-								unset($llamada['id_ficha']);
-								unset($llamada['id_llamada']);
-								unset($llamada['notas']);
-								?>">Consultar Ficha </a><br/>
+							<td>
+								<div>
+									<div></div>
+									<a class="ficha" href="busca_ficha.php?id_ficha=
+									<?php
+									$id_llamada = $llamada['id_llamada'];
+									$notas = $llamada['notas'];
+									echo $llamada['id_ficha'];
+									unset($llamada['id_ficha']);
+									unset($llamada['id_llamada']);
+									unset($llamada['notas']);
+									?>">Consultar Ficha </a><br><br>
+									<a class="borrar" name="xx" href="borra_llamada.php?id_llamada=<?php echo $id_llamada ?>">Borrar llamada</a>
+								</div>
 							</td>
-							<td><?php foreach ($llamada as $key => $val) : ?>
+							<td>
+
+								<?php foreach ($llamada as $key => $val) : ?>
 									<strong><?php echo estiliza($key) ?></strong> 
 									<?php echo $val ?>
-								<?php endforeach ?><br>
+								<?php endforeach ?>
+								<br>
 								<form action="pendientes.php" method="post">
 									<input type="hidden" name="id_llamada" value="<?php echo $id_llamada ?>">
 									<input type="hidden" name="id_usuario_resolvio" value="<?php echo $_SESSION['id_usuario'] ?>">
@@ -96,15 +153,18 @@ $llamadas = $db->query($query);
 											<td>Notas</td>
 											<td><textarea name="notas"><?php echo $notas ?></textarea></td>
 										</tr>
+										<tr>
+											<td colspan="2">
+												<input type="submit" value="Guardar">
+											</td>
+										</tr>
 									</table>
-									<input type="submit" value="Guardar">
 								</form>
 
 							</td>
 						</tr>
 					<?php endwhile ?>
 				</table>
-
 			</div>
 			<div id="footer"></div>
 		</div>

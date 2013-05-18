@@ -24,9 +24,9 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 
 	unset($_POST['nombre']);
 
-	if (($_POST['status'] == 'resuelte')) {
+	if (($_POST['status'] == 'resuelta')) {
 		$resuelta = 'now()';
-		$_POST['id_usuario_resolvio'] = $_POST['id_asignacion'];
+		$_POST['id_usuario_resolvio'] = $_POST['id_usuario_asignacion'];
 	} else {
 		unset($_POST['resuelta']); // Default: 'pendiente'
 		unset($_POST['id_usuario_resolvio']); //Default: null
@@ -58,10 +58,10 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 		<link rel="stylesheet" type="text/css" href="css/sisetic.css" />
 		<link rel="shortcut icon" href="css/favicon.png" >
 		<link rel="stylesheet" href="css/jquery-ui.css" />
-		<script src="js/jquery.js"></script>
-		<script src="js/jquery-v.js"></script>
-		<script src="js/jquery-ui.js"></script>
-		<script src="js/jquery-form.js"></script>
+		<script src="libs/js/jquery.js"></script>
+		<script src="libs/js/jquery-v.js"></script>
+		<script src="libs/js/jquery-ui.js"></script>
+		<script src="libs/js/jquery-form.js"></script>
 		<script>
 			//El widget de sujerencias.
 			$(function() {
@@ -70,46 +70,56 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 				});
 			});
 			
-			//funciones
-			
 			function carga_alta_de_ficha(url,event){
+				
+				var normaliza_datos = function(form){
+					//Eliminamos espacios en blanco al principio y al final de cada
+					//campo y pasamos todos a mayusculas con excepcion
+					//de los correos electronicos y la pagina web.
+					form.find('input').each(function(){
+					
+						var tmp = $.trim( $(this).val() );
+					
+						if( $.inArray( 
+						$(this).attr('name'), 
+						['correo_1','correo_2','correo_asistente','web_site']) != -1 ){
+							tmp = tmp.toLowerCase();
+						}else{
+							tmp = tmp.toUpperCase();
+						}
+					
+						$(this).val( tmp )
+					});
+				}
+				
 				$('#frame').load(url,function(){
 					$(this).children('form').validate();
 					$(this).children('form').find('input[name=instancia]').autocomplete({
 						source: 'busca_instancia.php'
 					})
+					$(this).children('form').on('submit',function(){
+						normaliza_datos($(this));
+					
+						$(this).ajaxSubmit({
+							datatype:'html',
+							success: function(html){
+								$('#frame').html(html);
+							}
+						});
+						return false;
+					})
 				});
 				event.preventDefault();
 			}
 			
-			function normaliza_datos(form){
-				
-				//Eliminamos espacios en blanco al principio y al final de cada
-				//campo y pasamos todos a mayusculas con excepcion
-				//de los correos electronicos y la pagina web.
-				form.find('input').each(function(){
-					
-					var tmp = $.trim( $(this).val() );
-					
-					if( $.inArray( 
-					$(this).attr('name'), 
-					['correo_1','correo_2','correo_asistente','web_site']) != -1 ){
-						tmp = tmp.toLowerCase();
-					}else{
-						tmp = tmp.toUpperCase();
-					}
-					
-					$(this).val( tmp )
-				});
-			}
-			
+			//funciones
 			function muestra_ficha(event){
 				
 				$.ajax({
 					type:'post',
 					url:'busca_ficha.php',
 					datatype: 'html',
-					data: {nombre: $(this).val()},
+					data: {nombre: $(this).val(),actualizable: true},
 					success: function(html){
 						$('#frame').html( html );
 						if( $(html).find('#link').length == 1){ //respuesta positiva
@@ -137,19 +147,6 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 				$('#frame').on('click','a',function(event){
 					carga_alta_de_ficha($(this).attr('href'),event);
 				});
-				
-				$('#frame').on('submit', 'form',function(){
-					
-					normaliza_datos($(this));
-					
-					$(this).ajaxSubmit({
-						datatype:'html',
-						success: function(html){
-							$('#frame').html(html);
-						}
-					});
-					return false;
-				})
 				
 				$('#crear_nueva_ficha').on('click',function(event){
 					var tmp = encodeURI($('form input[name=nombre]').val());

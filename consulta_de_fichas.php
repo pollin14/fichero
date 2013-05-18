@@ -80,10 +80,10 @@ if (isset($_GET['id_ficha'])) {
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="css/sisetic.css" />
 		<link rel="shortcut icon" href="css/favicon.png" >
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
-		<script src="js/jquery.js"></script>
-		<script src="js/jquery-v.js"></script>
-		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+		<link rel="stylesheet" href="css/jquery-ui.css" />
+		<script src="libs/js/jquery.js"></script>
+		<script src="libs/js/jquery-v.js"></script>
+		<script src="libs/js/jquery-ui.js"></script>
 		<script>
 			
 			//El widget de sujerencias.
@@ -96,13 +96,6 @@ if (isset($_GET['id_ficha'])) {
 					source: "busca_nombre.php"
 				});
 			});
-			
-			$(document).ready(function(){
-				$('.error, .exito').fadeOut(6000, function(){
-					$(this).html('');
-					$(this).fadeIn();
-				})
-			})
 			
 		</script>
         <title>SISETIC: Consulta de Ficha</title>
@@ -131,8 +124,8 @@ if (isset($_GET['id_ficha'])) {
 						<tr><td></td><td><input type="submit" value="Consultar"</td></tr>
 					</table>
 				</form>
+				<h1>Resultados (<?php echo $num_fichas ?>)</h1>
 				<div id="fichas">
-					<h1>Resultados (<?php echo $num_fichas ?>)</h1>
 					<table class="coloreada">
 							<?php foreach ($columnas as $value): ?>
 								<th><?php echo $value ?></th>

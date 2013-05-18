@@ -56,7 +56,8 @@ if ($post) {
 		'Notas',
 		'Fecha de Alta',
 		'Fecha de Resolucion',
-		'status', 'Tipo de Llamada',
+		'status', 
+		'Tipo de Llamada',
 		'Persona que Asigno',
 		'Persona que Resolvio'];
 	$query1 = '
@@ -97,12 +98,13 @@ where
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="css/sisetic.css" />
 		<link rel="shortcut icon" href="css/favicon.png" >
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
-		<script src="js/jquery.js"></script>
-		<script src="js/jquery-v.js"></script>
-		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+		<link rel="stylesheet" href="css/jquery-ui.css" />
+		<script src="libs/js/jquery.js"></script>
+		<script src="libs/js/jquery-v.js"></script>
+		<script src="libs/js/jquery-ui.js"></script>
 		<script>
-			$(function() {
+			$(document).ready(function(){
+
 				$( ".datepicker" ).datepicker({
 					dateFormat: "yy/mm/dd",
 					dayNames: ['Domingo','Lunes','Miércoles','Jueves','Viernes', 'Sábado'],

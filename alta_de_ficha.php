@@ -33,7 +33,6 @@ if (isset($_GET['nombre'])) {
 	}
 }
 
-
 if (isset($_GET['id_ficha'])) { //actualizamos
 	if (isset($_POST['id_ficha'])) {//actualizacion
 		$id = sprintf('%d', $_POST['id_ficha']);
@@ -78,6 +77,7 @@ if (isset($_GET['id_ficha'])) { //actualizamos
 		}
 
 		$insert = 'insert into fichas (' . implode(',', $columnas) . ') values (' . implode(',', $valores) . ');';
+		echo $insert;
 
 		if (!$db->query($insert)) {
 			$error = "No se pudo guardar la nueva ficha.";

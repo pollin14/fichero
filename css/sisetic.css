@@ -277,6 +277,30 @@ table.coloreada td{
 	padding:6px;
 }
 
+table.coloreada tr{
+	background-color: white;
+}
+
 table.coloreada tr:nth-child(2n){
 	background-color: #DFE4F4;
 }
+
+.borrar{
+	color:red;
+}
+
+#pendientes{
+	width:700px;
+}
+
+#pendientes tr td div{
+	position: relative;
+}
+
+#pendientes tr td div div{
+	position: absolute;
+	display: none;
+	left: 700px;
+	top: -60px;
+}
+
