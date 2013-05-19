@@ -51,7 +51,7 @@ if (isset($_POST['palabra_clave'])) {
 
 if ($post) {
 
-	$columnas = [
+	$columnas = array(
 		'Nombre',
 		'Notas',
 		'Fecha de Alta',
@@ -59,7 +59,7 @@ if ($post) {
 		'status', 
 		'Tipo de Llamada',
 		'Persona que Asigno',
-		'Persona que Resolvio'];
+		'Persona que Resolvio');
 	$query1 = '
 select 
 	reg_llamadas.id_llamada,

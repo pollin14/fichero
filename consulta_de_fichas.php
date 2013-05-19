@@ -6,7 +6,7 @@ require_once 'funciones.php';
 
 administraSesion();
 
-$formulario = ['nombre', 'instancia', 'correo'];
+$formulario = array('nombre', 'instancia', 'correo');
 $nombre = '';
 $instancia = '';
 $correo = '';

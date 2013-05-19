@@ -23,7 +23,7 @@ function estiliza($subject) {
 	return ucwords(str_replace('_', ' ', $subject));
 }
 
-function fechaValida($strDate, $format = ['y', 'm', 'd'], $ex = '/') {
+function fechaValida($strDate, $format = array('y', 'm', 'd'), $ex = '/') {
 	$valid = false;
 	if (is_array($format) &&
 			count($format) == 3 &&
