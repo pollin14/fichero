@@ -98,7 +98,7 @@ where
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="css/sisetic.css" />
 		<link rel="shortcut icon" href="css/favicon.png" >
-		<link rel="stylesheet" href="css/jquery-ui.css" />
+		<link rel="stylesheet" href="css/jquery-ui-1.10.3.min.css" />
 		<script src="libs/js/jquery.js"></script>
 		<script src="libs/js/jquery-v.js"></script>
 		<script src="libs/js/jquery-ui.js"></script>
@@ -123,6 +123,10 @@ where
 						"Noviembre", 
 						"Diciembre"]
 				});
+				
+				$('form').on('submit',function(){
+					$('#loading').addClass('loading');
+				})
 			});
 		</script>
         <title>SISETIC: Historial de Llamadas</title>
@@ -148,6 +152,7 @@ where
 						<tr><td></td><td><input type="submit" value="Consultar"</td></tr>
 					</table>
 				</form>
+				<div id="loading" style="width: 100%; height: 50px;"></div>
 				<h1>Resultados (<?php echo $num_fichas ?>)</h1>
 				<table class="center coloreada">
 					<tr>

@@ -7,22 +7,22 @@
 */
 
 body{
-/* IE10 Consumer Preview */ 
-background-image: -ms-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
+	/* IE10 Consumer Preview */ 
+	background-image: -ms-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
 
-/* Mozilla Firefox */ 
-background-image: -moz-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
+	/* Mozilla Firefox */ 
+	background-image: -moz-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
 
-/* Opera */ 
-background-image: -o-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
+	/* Opera */ 
+	background-image: -o-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
 
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #CBCFE7), color-stop(1, #FFFFFF));
+	/* Webkit (Safari/Chrome 10) */ 
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #CBCFE7), color-stop(1, #FFFFFF));
 
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
+	/* Webkit (Chrome 11+) */ 
+	background-image: -webkit-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
 
-/* W3C Markup, IE10 Release Preview */ 
+	/* W3C Markup, IE10 Release Preview */ 
 	background-image: linear-gradient(to top, #CBCFE7 0%, #FFFFFF 100%);
 	background-repeat: no-repeat;
 	background-color: #CBCFE6;
@@ -31,9 +31,11 @@ background-image: -webkit-linear-gradient(bottom, #CBCFE7 0%, #FFFFFF 100%);
 	color: #262D4A;
 }
 
+/* No soportado para explorer 9 o inferiores */
 input[type='text'], input[type='submit'], input[type='password']{
 	border: solid #336699 thin;
 }
+
 input:focus{
 	background-color: #DFE4F4;
 }
@@ -48,7 +50,7 @@ select{
 }
 
 h1{
-text-align:center;
+	text-align:center;
 }
 
 table tr th{
@@ -88,8 +90,8 @@ table tr th{
 }
 
 #container{
-padding:15px;
-margin:0px
+	padding:15px;
+	margin:0px
 }
 
 
@@ -148,7 +150,7 @@ margin:0px
 	padding: 7px 0px 8px 0px;
 	text-decoration: none;
 	color: white;
-	
+
 }
 
 #menu ul li ul{
@@ -244,6 +246,9 @@ table tr td{
 	width:80px;
 }
 
+#alta_de_ficha input[name=nombre]{
+	height: 16px;
+}
 /*
 	Consulta de fichas
 */
@@ -304,3 +309,26 @@ table.coloreada tr:nth-child(2n){
 	top: -60px;
 }
 
+#frame{
+	min-height: 50px;
+	min-width: 50px;
+}
+
+
+.loading{
+	background-image: url(images/loading.gif);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.ficha_flotante{
+	display:block;
+	width: 250px;
+	height: 200px;
+	overflow-y: auto;
+}
+/** With this class we can add a loading animation while search a name **/
+.ui-autocomplete-loading {
+	background: white url('images/loading.gif') right center no-repeat;
+	background-size: 16px 16px;
+}

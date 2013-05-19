@@ -42,7 +42,6 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 
 	$insert = 'insert into reg_llamadas (' . implode(',', $columnas) . ') 
 		values (' . implode(',', $valores) . ');';
-
 	if ($db->query($insert)) {
 		$exito = 'Llamda guardada.';
 	} else {
@@ -57,20 +56,16 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="css/sisetic.css" />
 		<link rel="shortcut icon" href="css/favicon.png" >
-		<link rel="stylesheet" href="css/jquery-ui.css" />
+		<link rel="stylesheet" href="css/jquery-ui-1.10.3.min.css" />
 		<script src="libs/js/jquery.js"></script>
 		<script src="libs/js/jquery-v.js"></script>
 		<script src="libs/js/jquery-ui.js"></script>
 		<script src="libs/js/jquery-form.js"></script>
 		<script>
-			//El widget de sujerencias.
-			$(function() {
-				$( "#alta_de_llamada input[name=nombre]" ).autocomplete({
-					source: "busca_nombre.php"
-				});
-			});
 			
 			function carga_alta_de_ficha(url,event){
+				
+				$('#loading').addClass('loading');	
 				
 				var normaliza_datos = function(form){
 					//Eliminamos espacios en blanco al principio y al final de cada
@@ -92,11 +87,13 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 					});
 				}
 				
+				
 				$('#frame').load(url,function(){
 					$(this).children('form').validate();
 					$(this).children('form').find('input[name=instancia]').autocomplete({
 						source: 'busca_instancia.php'
-					})
+					});
+					
 					$(this).children('form').on('submit',function(){
 						normaliza_datos($(this));
 					
@@ -107,13 +104,17 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 							}
 						});
 						return false;
-					})
+					});
+					
+					$(this).removeClass('loading');
 				});
+				$('#loading').removeClass('loading');	
 				event.preventDefault();
 			}
 			
 			//funciones
 			function muestra_ficha(event){
+				$('#loading').addClass('loading');
 				
 				$.ajax({
 					type:'post',
@@ -128,6 +129,7 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 							var tmp = $('#alta_de_llamada input[name=nombre]').val();
 							carga_alta_de_ficha('alta_de_ficha.php?nombre=' + tmp,event);
 						}
+						$('#loading').removeClass('loading');	
 					}
 				});
 				
@@ -140,9 +142,18 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 			$(document).ready(function(){
 				
 				//Asignacion de eventos
+				
+				$( "#alta_de_llamada input[name=nombre]" ).autocomplete({
+					source: "busca_nombre.php"
+				});
+				
 				$('form input[name=nombre]').on('focusout', muestra_ficha);
 				
 				$('form input[name=nombre]').on('focus',inhabilita);
+				
+				$('form').on('submit',function(){
+					$('#loading').addClass('loading');
+				})
 				
 				$('#frame').on('click','a',function(event){
 					carga_alta_de_ficha($(this).attr('href'),event);
@@ -220,6 +231,7 @@ if (isset($_POST['nombre']) && isset($_POST['id_ficha'])) {
 						</tr>
 					</table>
 				</form>
+				<div id="loading" style="width: 100%; height: 50px;"></div>
 				<div id="frame">
 				</div>
 			</div>

@@ -80,14 +80,15 @@ if (isset($_GET['id_ficha'])) {
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="css/sisetic.css" />
 		<link rel="shortcut icon" href="css/favicon.png" >
-		<link rel="stylesheet" href="css/jquery-ui.css" />
+		<link rel="stylesheet" href="css/jquery-ui-1.10.3.min.css" />
 		<script src="libs/js/jquery.js"></script>
 		<script src="libs/js/jquery-v.js"></script>
 		<script src="libs/js/jquery-ui.js"></script>
 		<script>
 			
 			//El widget de sujerencias.
-			$(function() {
+			$(document).ready(function(){
+				
 				$( "form input[name=instancia]" ).autocomplete({
 					source: "busca_instancia.php"
 				});
@@ -95,7 +96,11 @@ if (isset($_GET['id_ficha'])) {
 				$( "form input[name=nombre]" ).autocomplete({
 					source: "busca_nombre.php"
 				});
-			});
+				
+				$('form').on('submit',function(){
+					$('#loading').addClass('loading');
+				});
+			})
 			
 		</script>
         <title>SISETIC: Consulta de Ficha</title>
@@ -121,9 +126,10 @@ if (isset($_GET['id_ficha'])) {
 								<td><input type="text" value="" name="<?php echo $value ?>"></td>
 							</tr>
 						<?php endforeach; ?>
-						<tr><td></td><td><input type="submit" value="Consultar"</td></tr>
+						<tr><td></td><td><input type="submit" value="Consultar" id="consultar"</td></tr>
 					</table>
 				</form>
+				<div id="loading" style="width: 100%; height: 50px;"></div>
 				<h1>Resultados (<?php echo $num_fichas ?>)</h1>
 				<div id="fichas">
 					<table class="coloreada">
